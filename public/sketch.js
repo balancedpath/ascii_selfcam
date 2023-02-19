@@ -74,7 +74,6 @@ function draw (){
       const r = video.pixels[pixelIndex + 0];
       const g = video.pixels[pixelIndex + 1];
       const b = video.pixels[pixelIndex + 2];
-      // const avg = (r + b + g) / 3;
 
       // Luminance
       const grey = r * 0.3 + g * 0.59 + b * 0.11;
