@@ -28,10 +28,12 @@ function setup() {
   
   asciiDiv = createDiv()
 
-  exampleLine = 'c'.repeat(videoWidth)
+  exampleLine = '_'.repeat(videoWidth)
   exampleDiv = document.createElement('span')
   exampleDiv.innerHTML = exampleLine
   document.body.appendChild(exampleDiv)
+
+  // delayed because render needs moment to display before grabbing it
   setTimeout(() => {
     // multiply font size by this
     charMulti = window.innerWidth / exampleDiv.offsetWidth
