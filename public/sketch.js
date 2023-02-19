@@ -12,12 +12,19 @@ const density = " .:-=+*#%@";
 let video;
 let asciiDiv;
 
-// amount of characters on a line 
-// as every pixel is a character, increasing this will be performance costly
-const videoWidth = 200; 
-// for minimal image warping, keep a 16:9 aspect ratio
-const videoHeight = Math.floor((videoWidth / 16) * 9);
 const maxFrameRate = 30;
+
+let videoWidth, videoHeight;
+
+// check if screen is portrait, if yes, most likely mobile
+if (window.innerHeight > window.innerWidth) {
+  videoHeight = 80
+  videoWidth = Math.floor((videoHeight / 4) * 3);
+} else {
+  videoWidth = 200; 
+  // for minimal image warping, keep a 4:3 aspect ratio
+  videoHeight = Math.floor((videoWidth / 4) * 3);
+}
 
 // ideas:
 // displaying text as overlay of ascii
