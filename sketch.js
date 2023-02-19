@@ -1,5 +1,15 @@
+// note for choosing a density. higher samples might be more 'realistic'
+// however as the thresholds become increasingly narrower, the image will become more and more restless
+// therefor a 10 step samplerate is currently in use.
+
+// also, put more spaces in front of it to increase the threshold of dark/bright
+
 // const density = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~i!lI;;;;::::,,,,\"\"\"\"^^^^````''''....    ";
-const density = "$@B%8WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~i!lI;:,\"^`'.              ";
+// const density = "ÆÑÊŒØMÉËÈÃÂWQBÅæ#NÁþEÄÀHKRŽœXgÐêqÛŠÕÔA€ßpmãâG¶øðé8ÚÜ$ëdÙýèÓÞÖåÿÒb¥FDñáZPäšÇàhû§ÝkŸ®S9žUTe6µOyxÎ¾f4õ5ôú&aü™2ùçw©Y£0VÍL±3ÏÌóC@nöòs¢u‰½¼‡zJƒ%¤Itocîrjv1lí=ïìi7†[¿?×}*{+()\/»«•¬|!¡÷¦¯—^ª„”“~³º²–°­¹‹›;:’‘‚’˜ˆ¸…·¨´` ";
+// const density = "$@B%8WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~i!lI;:,\"^`'.              ";
+const density = "  .:-=+*#%@";
+
+
 
 let video;
 let asciiDiv;
@@ -73,7 +83,7 @@ function draw (){
       const grey = r * 0.3 + g * 0.59 + b * 0.11;
       
       const len = density.length
-      const charIndex = floor(map(grey, 0, 255, len, 0))
+      const charIndex = floor(map(grey, 0, 255, 0, len))
 
       // noStroke()
       // fill(255) // tie this to brightness when its not ascii density representation
