@@ -9,6 +9,10 @@
 // const density = "$@B%8WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~i!lI;:,\"^`'.              ";
 const density = " .:-=+*#%@";
 
+console.log(lichtkrantText);
+
+const textSample = 'lorem ipsum'
+
 let video;
 let asciiDiv;
 
@@ -19,56 +23,28 @@ const videoWidth = 200;
 const videoHeight = Math.floor((videoWidth / 16) * 9);
 const maxFrameRate = 30;
 
-// ideas:
-// displaying text as overlay of ascii
-
-const setUsableScreenspace = () => {
-  // calculate usable screenspace
-  exampleLine = '_'.repeat(videoWidth)
-  exampleDiv = document.createElement('span')
-  exampleDiv.innerHTML = exampleLine
-  document.body.appendChild(exampleDiv)
-
-  // delayed because render needs moment to display before grabbing it
-  setTimeout(() => {
-    // multiply font size by this
-    charMulti = window.innerWidth / exampleDiv.offsetWidth
-
-    let style = window.getComputedStyle(document.body, null).getPropertyValue('font-size');
-    let newFontSize = parseFloat(style); 
-  
-    document.body.style.fontSize = (newFontSize * charMulti)+ 'px'
-
-    // set lineheight when other stuff is fixed
-    document.body.style.lineHeight = (newFontSize * charMulti) / 1.4 + 'px'
-
-    // remove example line when calculations are done
-    document.body.removeChild(exampleDiv)
-
-  }, 500);
-}
-
 function setup() {
-  noCanvas()
+  createCanvas(displayWidth, displayHeight)
   frameRate(maxFrameRate)
 
   video = createCapture(VIDEO)
-  video.size(videoWidth, videoHeight)
-  video.hide()
+  video.size(20, 20)
+  // video.hide()
   
-  asciiDiv = createDiv()
-
-  setUsableScreenspace()
+  // setUsableScreenspace()
 
 }
 
 function draw (){
 
+  background(0)
+
   video.loadPixels()
+
+  let w = width / video.width
+  let h = height / video.height
   
-  let asciiImage = '';
   for (let j = 0; j < video.height; j++) {
-    let row = '';
     for (let i = 0; i < video.width; i++) {
       const pixelIndex = (i + j * video.width) * 4
       const r = video.pixels[pixelIndex + 0];
@@ -81,31 +57,17 @@ function draw (){
       const len = density.length
       const charIndex = floor(map(grey, 0, 255, 0, len))
 
-      // noStroke()
-      // fill(255) // tie this to brightness when its not ascii density representation
-      // rect(i*w, j*h, w)
+      noStroke()
+      fill(255) // tie this to brightness when its not ascii density representation
 
-      // textSize(w)
-      // textAlign(CENTER, CENTER)
-      // text(
-      //   density.charAt(charIndex),
-      //   i * w + w * 0.5,
-      //   j * h + h * 0.5
-      // );
-      const c = density.charAt(charIndex)
-      if (c == ' '){
-        row += ';psbn&' // crazy, but the below backwards, as the html will be mirrored
-        // row += '&nbsp;'
-      } else {
-        row += c;
-      }
+      textSize(w)
+      textAlign(CENTER, CENTER)
+      text(
+        density.charAt(charIndex),
+        i * w - w * 0.5,
+        j * w - w * 0.5
+      );
     }
-    row = row.split('').reverse().join('');
-    // console.log(getFrameRate());
-    asciiImage += row
-    asciiImage += '<br/>'
   }
-
-  asciiDiv.html(asciiImage)
 }
 
