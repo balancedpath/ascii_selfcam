@@ -7,37 +7,23 @@
 // const density = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~i!lI;;;;::::,,,,\"\"\"\"^^^^````''''....    ";
 // const density = "ÆÑÊŒØMÉËÈÃÂWQBÅæ#NÁþEÄÀHKRŽœXgÐêqÛŠÕÔA€ßpmãâG¶øðé8ÚÜ$ëdÙýèÓÞÖåÿÒb¥FDñáZPäšÇàhû§ÝkŸ®S9žUTe6µOyxÎ¾f4õ5ôú&aü™2ùçw©Y£0VÍL±3ÏÌóC@nöòs¢u‰½¼‡zJƒ%¤Itocîrjv1lí=ïìi7†[¿?×}*{+()\/»«•¬|!¡÷¦¯—^ª„”“~³º²–°­¹‹›;:’‘‚’˜ˆ¸…·¨´` ";
 // const density = "$@B%8WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~i!lI;:,\"^`'.              ";
-const density = "  .:-=+*#%@";
-
-
+const density = " .:-=+*#%@";
 
 let video;
 let asciiDiv;
 
-const videoWidth = 160;
-const videoHeight = 90;
+// amount of characters on a line 
+// as every pixel is a character, increasing this will be performance costly
+const videoWidth = 200; 
+// for minimal image warping, keep a 16:9 aspect ratio
+const videoHeight = Math.floor((videoWidth / 16) * 9);
 const maxFrameRate = 30;
 
 // ideas:
 // displaying text as overlay of ascii
 
-function getFontSize(windowWidth) {
-
-
-
-  return 1
-}
-
-function setup() {
-  noCanvas()
-  frameRate(maxFrameRate)
-
-  video = createCapture(VIDEO)
-  video.size(videoWidth, videoHeight)
-  video.hide()
-  
-  asciiDiv = createDiv()
-
+const setUsableScreenspace = () => {
+  // calculate usable screenspace
   exampleLine = '_'.repeat(videoWidth)
   exampleDiv = document.createElement('span')
   exampleDiv.innerHTML = exampleLine
@@ -60,12 +46,23 @@ function setup() {
     document.body.removeChild(exampleDiv)
 
   }, 500);
+}
+
+function setup() {
+  noCanvas()
+  frameRate(maxFrameRate)
+
+  video = createCapture(VIDEO)
+  video.size(videoWidth, videoHeight)
+  video.hide()
+  
+  asciiDiv = createDiv()
+
+  setUsableScreenspace()
 
 }
 
 function draw (){
-  // let w = width / loadedImage.width
-  // let h = height / loadedImage.height
 
   video.loadPixels()
   
