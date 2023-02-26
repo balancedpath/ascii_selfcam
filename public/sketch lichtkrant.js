@@ -77,7 +77,7 @@ const rgb2hsl = (r, g, b) => {
     h = (r - g) / delta + 4;
 
   // h = Math.round(h * 60);
-  h = Math.round(Math.floor(h) * 60);
+  h = Math.round(h * 60);
     
   // Make negative hues positive behind 360°
   if (h < 0)
