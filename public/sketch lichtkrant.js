@@ -9,9 +9,7 @@
 // const density = "$@B%8WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~i!lI;:,\"^`'.              ";
 const density = " .:-=+*#%@";
 
-console.log(lichtkrantText);
-
-const textSample = 'lorem ipsum'
+const textShiftText = lichtkrantText
 
 let video;
 let asciiDiv;
@@ -23,13 +21,25 @@ const videoWidth = 200;
 const videoHeight = Math.floor((videoWidth / 16) * 9);
 const maxFrameRate = 30;
 
+const textShiftSpeed = 300
+let textShiftOffset = 0;
+
+setInterval(() => {
+  if (textShiftOffset < textShiftText.length) {
+    textShiftOffset += 1
+  } else {
+    textShiftOffset = 0
+  }
+}, textShiftSpeed);
+
 function setup() {
   createCanvas(displayWidth, displayHeight)
   frameRate(maxFrameRate)
 
   video = createCapture(VIDEO)
-  video.size(20, 20)
-  // video.hide()
+  video.size(40, 30)
+  video.hide()
+
   
   // setUsableScreenspace()
 
@@ -47,6 +57,7 @@ function draw (){
   for (let j = 0; j < video.height; j++) {
     for (let i = 0; i < video.width; i++) {
       const pixelIndex = (i + j * video.width) * 4
+      const textShiftIndex = (i + j * video.width) + textShiftOffset
       const r = video.pixels[pixelIndex + 0];
       const g = video.pixels[pixelIndex + 1];
       const b = video.pixels[pixelIndex + 2];
@@ -54,19 +65,20 @@ function draw (){
       // Luminance
       const grey = r * 0.3 + g * 0.59 + b * 0.11;
       
-      const len = density.length
-      const charIndex = floor(map(grey, 0, 255, 0, len))
+      // const len = density.length
+      // const charIndex = floor(map(grey, 0, 255, 0, len))
 
       noStroke()
-      fill(255) // tie this to brightness when its not ascii density representation
+      fill(grey) // tie this to brightness when its not ascii density representation
 
       textSize(w)
       textAlign(CENTER, CENTER)
       text(
-        density.charAt(charIndex),
+        textShiftText[textShiftIndex % textShiftText.length],
+        // density.charAt(charIndex),
         i * w - w * 0.5,
         j * w - w * 0.5
-      );
+        );
     }
   }
 }
