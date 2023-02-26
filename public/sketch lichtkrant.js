@@ -16,14 +16,15 @@ let asciiDiv;
 
 // amount of characters on a line 
 // as every pixel is a character, increasing this will be performance costly
-const videoWidth = 200; 
+const videoWidth = 80; 
 // for minimal image warping, keep a 16:9 aspect ratio
 const videoHeight = Math.floor((videoWidth / 16) * 9);
 const maxFrameRate = 30;
 
-const textShiftSpeed = 300
-let textShiftOffset = 0;
 
+const textShiftSpeed = 450
+let textShiftOffset = 0;
+// make the offset change every X ms
 setInterval(() => {
   if (textShiftOffset < textShiftText.length) {
     textShiftOffset += 1
@@ -37,7 +38,7 @@ function setup() {
   frameRate(maxFrameRate)
 
   video = createCapture(VIDEO)
-  video.size(40, 30)
+  video.size(videoWidth, videoHeight)
   video.hide()
 
   
@@ -58,11 +59,11 @@ function draw (){
     for (let i = 0; i < video.width; i++) {
       const pixelIndex = (i + j * video.width) * 4
       const textShiftIndex = (i + j * video.width) + textShiftOffset
+      
+      // Luminance
       const r = video.pixels[pixelIndex + 0];
       const g = video.pixels[pixelIndex + 1];
       const b = video.pixels[pixelIndex + 2];
-
-      // Luminance
       const grey = r * 0.3 + g * 0.59 + b * 0.11;
       
       // const len = density.length
@@ -71,13 +72,14 @@ function draw (){
       noStroke()
       fill(grey) // tie this to brightness when its not ascii density representation
 
-      textSize(w)
+      textSize(w * 2)
       textAlign(CENTER, CENTER)
+      textFont('Courier')
       text(
         textShiftText[textShiftIndex % textShiftText.length],
         // density.charAt(charIndex),
         i * w - w * 0.5,
-        j * w - w * 0.5
+        (j * w - w * 0.5) * 1.5
         );
     }
   }
