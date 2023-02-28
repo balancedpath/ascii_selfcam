@@ -32,6 +32,14 @@ function draw (){
       const g = video.pixels[pixelIndex + 1];
       const b = video.pixels[pixelIndex + 2];
       
+      /**
+       * IDEA TO MAKE
+       * keep track of values of every block
+       * and average it out with new values
+       * to create a 'tracer' effect
+       */
+
+
       // noStroke()
       const [h,s,l] = rgb2hsl(r,g,b)
       colorMode(HSL)
