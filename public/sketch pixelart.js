@@ -11,8 +11,7 @@ function setup() {
 
   video = createCapture(VIDEO)
   video.size(videoWidth, videoHeight)
-  // video.hide()
-  
+  video.hide()
 }
 
 function draw (){
@@ -33,8 +32,10 @@ function draw (){
       const g = video.pixels[pixelIndex + 1];
       const b = video.pixels[pixelIndex + 2];
       
-      noStroke()
-      fill(r,g,b) // tie this to brightness when its not ascii density representation
+      // noStroke()
+      const [h,s,l] = rgb2hsl(r,g,b)
+      colorMode(HSL)
+      fill(h,s,l) 
 
       rectMode(CENTER)
       rect(
