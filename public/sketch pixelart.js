@@ -1,6 +1,6 @@
 let video;
 
-const videoWidth = 40; 
+const videoWidth = 60; 
 // for minimal image warping, keep a 4:3 aspect ratio
 const videoHeight = Math.floor((videoWidth / 4) * 3);
 const maxFrameRate = 30;
@@ -12,6 +12,20 @@ function setup() {
   video = createCapture(VIDEO)
   video.size(videoWidth, videoHeight)
   video.hide()
+}
+
+const hslRounding = (h, s, l) => {
+  // devide by 10
+  const hueDiv = 12
+  const newHue = Math.round(h / hueDiv) * hueDiv
+
+  const satDiv = 10
+  const newSat = Math.round(s / satDiv) * satDiv
+
+  const lightDiv = 20
+  const newLight = Math.round(l / lightDiv) * lightDiv
+
+  return [newHue, newSat, newLight]
 }
 
 function draw (){
@@ -41,9 +55,10 @@ function draw (){
 
 
       // noStroke()
-      const [h,s,l] = rgb2hsl(r,g,b)
+      let [h,s,l] = rgb2hsl(r,g,b)
       colorMode(HSL)
-      fill(h,s,l) 
+      let [h2,s2,l2] = hslRounding(h,s,l)
+      fill(h2,s2,l2) 
 
       rectMode(CENTER)
       rect(
